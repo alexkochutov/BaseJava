@@ -9,7 +9,7 @@ public class ArrayStorage {
 
     void clear() {
         if (count > 0) {
-            Arrays.fill(storage, 0, count - 1, null);
+            Arrays.fill(storage, 0, count, null);
             count = 0;
         }
     }
@@ -36,6 +36,7 @@ public class ArrayStorage {
                 count--;
                 System.arraycopy(storage, i + 1, storage, i, count - i);
                 storage[count] = null;
+                break;
             }
         }
     }
@@ -44,9 +45,6 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        if (count == 0) {
-            return new Resume[0];
-        }
         return Arrays.copyOf(storage, count);
     }
 
