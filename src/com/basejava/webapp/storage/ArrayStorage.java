@@ -4,55 +4,78 @@ import com.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
 
-/**
- * Array based storage for Resumes
- */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
-    int count;
+    private Resume[] storage = new Resume[10000];
+    private int size;
 
-    void clear() {
-        if (count > 0) {
-            Arrays.fill(storage, 0, count, null);
-            count = 0;
+    public void clear() {
+        if (size > 0) {
+            Arrays.fill(storage, 0, size, null);
+            size = 0;
         }
     }
 
-    void save(Resume r) {
-        if (r != null) {
-            storage[count] = r;
-            count++;
+    public void update(Resume r) {
+        int index = getIndex(r.getUuid());
+        if (index == -1) {
+            System.out.println("ERROR: Resume with UUID \"" + r.getUuid() + "\" does not exist!");
+        } else {
+            storage[index] = r;
         }
     }
 
-    Resume get(String uuid) {
-        for (int i = 0; i < count; i++) {
-            if (storage[i].uuid.equals(uuid)) {
-                return storage[i];
+    public void save(Resume r) {
+        if (size >= storage.length) {
+            System.out.println("ERROR: Storage is filled!");
+        } else {
+            if (getIndex(r.getUuid()) == -1) {
+                storage[size] = r;
+                size++;
+            } else {
+                System.out.println("ERROR: Resume with UUID \"" + r.getUuid() + "\" already exists!");
             }
         }
-        return null;
     }
 
-    void delete(String uuid) {
-        for (int i = 0; i < count; i++) {
-            if (storage[i].uuid.equals(uuid)) {
-                count--;
-                System.arraycopy(storage, i + 1, storage, i, count - i);
-                storage[count] = null;
-                break;
-            }
+    public Resume get(String uuid) {
+        int index = getIndex(uuid);
+        if (index == -1) {
+            System.out.println("ERROR: Resume with UUID \"" + uuid + "\" is not found!");
+            return null;
+        } else {
+            return storage[index];
+        }
+    }
+
+    public void delete(String uuid) {
+        int index = getIndex(uuid);
+        if (index == -1) {
+            System.out.println("ERROR: Resume with UUID \"" + uuid + "\" is not found!");
+        } else {
+            storage[index] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
+            System.out.println("Resume with UUID \"" + uuid + "\" is deleted.");
         }
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    Resume[] getAll() {
-        return Arrays.copyOf(storage, count);
+    public Resume[] getAll() {
+        return Arrays.copyOf(storage, size);
     }
 
-    int size() {
-        return count;
+    public int size() {
+        return size;
+    }
+
+    private int getIndex(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (uuid.equals(storage[i].getUuid())) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
