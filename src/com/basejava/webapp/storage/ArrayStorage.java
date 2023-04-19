@@ -5,14 +5,13 @@ import com.basejava.webapp.model.Resume;
 import java.util.Arrays;
 
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private final static int STORAGE_LIMIT = 10000;
+    private final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size;
 
     public void clear() {
-        if (size > 0) {
             Arrays.fill(storage, 0, size, null);
             size = 0;
-        }
     }
 
     public void update(Resume r) {
@@ -25,15 +24,13 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (size >= storage.length) {
+        if (size >= STORAGE_LIMIT) {
             System.out.println("ERROR: Storage is filled!");
+        } else if (getIndex(r.getUuid()) != -1){
+            System.out.println("ERROR: Resume with UUID \"" + r.getUuid() + "\" already exists!");
         } else {
-            if (getIndex(r.getUuid()) == -1) {
-                storage[size] = r;
-                size++;
-            } else {
-                System.out.println("ERROR: Resume with UUID \"" + r.getUuid() + "\" already exists!");
-            }
+            storage[size] = r;
+            size++;
         }
     }
 
