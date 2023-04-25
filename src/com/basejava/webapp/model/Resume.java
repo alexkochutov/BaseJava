@@ -1,6 +1,6 @@
 package com.basejava.webapp.model;
 
-public class Resume {
+public class Resume implements Comparable<Resume> {
     private String uuid;
 
     public String getUuid() {
@@ -27,5 +27,10 @@ public class Resume {
     @Override
     public int hashCode() {
         return uuid.hashCode();
+    }
+
+    @Override
+    public int compareTo(Resume o) {
+        return uuid.compareTo(o.uuid);
     }
 }
