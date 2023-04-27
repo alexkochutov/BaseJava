@@ -1,5 +1,8 @@
 package com.basejava.webapp.storage;
 
+import com.basejava.webapp.exception.ExistStorageException;
+import com.basejava.webapp.exception.NotExistStorageException;
+import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -12,9 +15,9 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void save(Resume r) {
         int index = getIndex(r.getUuid());
         if (size >= STORAGE_LIMIT) {
-            System.out.println("ERROR: Storage is filled!");
+            throw new StorageException("Storage is filled!", r.getUuid());
         } else if (index >= 0) {
-            System.out.println("ERROR: Resume with UUID \"" + r.getUuid() + "\" already exists!");
+            throw new ExistStorageException(r.getUuid());
         } else {
             insertItem(r, index);
             size++;
@@ -24,7 +27,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void update(Resume r) {
         int index = getIndex(r.getUuid());
         if (index < 0) {
-            System.out.println("ERROR: Resume with UUID \"" + r.getUuid() + "\" does not exist!");
+            throw new NotExistStorageException(r.getUuid());
         } else {
             storage[index] = r;
         }
@@ -33,12 +36,11 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("ERROR: Resume with UUID \"" + uuid + "\" is not found!");
+            throw new NotExistStorageException(uuid);
         } else {
             removeItem(index);
             storage[size - 1] = null;
             size--;
-            System.out.println("Resume with UUID \"" + uuid + "\" is deleted.");
         }
     }
 
@@ -54,8 +56,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public final Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("ERROR: Resume with UUID \"" + uuid + "\" is not found!");
-            return null;
+            throw new NotExistStorageException(uuid);
         } else {
             return storage[index];
         }
