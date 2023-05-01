@@ -100,6 +100,8 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void get() {
         assertGet(RESUME_1);
+        assertGet(RESUME_2);
+        assertGet(RESUME_3);
     }
 
     @Test (expected = NotExistStorageException.class)
