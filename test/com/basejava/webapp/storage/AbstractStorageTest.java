@@ -6,8 +6,8 @@ import org.junit.*;
 
 import static org.junit.Assert.*;
 
-public abstract class AbstractArrayStorageTest {
-    private final Storage storage;
+public abstract class AbstractStorageTest {
+    protected final Storage storage;
 
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -20,7 +20,7 @@ public abstract class AbstractArrayStorageTest {
     private static final Resume RESUME_3 = new Resume(UUID_3);
     private static final Resume RESUME_4 = new Resume(UUID_4);
 
-    protected AbstractArrayStorageTest(Storage storage) {
+    protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -46,19 +46,6 @@ public abstract class AbstractArrayStorageTest {
     @Test (expected = ExistStorageException.class)
     public void saveExists() {
         storage.save(RESUME_1);
-    }
-
-    @Test (expected = StorageException.class)
-    public void saveOverflow() {
-        storage.clear();
-        try {
-            for (int i = storage.size(); i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
-            }
-        } catch (StorageException e) {
-            Assert.fail();
-        }
-        storage.save(new Resume());
     }
 
     @Test
