@@ -11,31 +11,34 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected int size;
 
     @Override
-    protected boolean isExist(Resume r) {
-        return getIndex(r.getUuid()) >= 0;
+    protected boolean isExist(Object index) {
+        return (Integer) index >= 0;
     }
 
     @Override
-    protected void doSave(Resume r) {
+    protected void doSave(Resume r, Object index) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage is filled!", r.getUuid());
         }
-        insertItem(r, getIndex(r.getUuid()));
+        insertItem(r, (Integer) index);
         size++;
     }
 
     @Override
-    protected void doUpdate(Resume r) {
-        int index = getIndex(r.getUuid());
-        storage[index] = r;
+    protected void doUpdate(Resume r, Object index) {
+        storage[(Integer) index] = r;
     }
 
     @Override
-    protected void doDelete(String uuid) {
-        int index = getIndex(uuid);
-        removeItem(index);
+    protected void doDelete(Object index) {
+        removeItem((Integer) index);
         storage[size - 1] = null;
         size--;
+    }
+
+    @Override
+    protected Resume doGet(Object index) {
+        return storage[(Integer) index];
     }
 
     @Override
@@ -48,17 +51,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    @Override
-    protected Resume doGet(String uuid) {
-        int index = getIndex(uuid);
-        return storage[index];
-    }
-
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
 
-    protected abstract int getIndex(String uuid);
+    protected abstract Object getSearchKey(String uuid);
     protected abstract void insertItem(Resume r, int index);
     protected abstract void removeItem(int index);
 }
