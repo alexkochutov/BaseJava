@@ -39,6 +39,11 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
+    protected Resume[] doCopy() {
+        return storage.values().toArray(new Resume[0]);
+    }
+
+    @Override
     public void clear() {
         storage.clear();
     }
@@ -46,10 +51,5 @@ public class MapStorage extends AbstractStorage {
     @Override
     public int size() {
         return storage.size();
-    }
-
-    @Override
-    public Resume[] getAll() {
-        return storage.values().toArray(new Resume[0]);
     }
 }
