@@ -4,6 +4,9 @@ import com.basejava.webapp.model.Resume;
 import com.basejava.webapp.exception.*;
 import org.junit.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
@@ -13,12 +16,18 @@ public abstract class AbstractStorageTest {
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final String UUID_4 = "uuid4";
+
+    private static final String NAME_1 = "name1";
+    private static final String NAME_2 = "name2";
+    private static final String NAME_3 = "name3";
+    private static final String NAME_4 = "name4";
+
     private static final String UUID_NOT_EXIST = "dummy";
 
-    protected static final Resume RESUME_1 = new Resume(UUID_1);
-    protected static final Resume RESUME_2 = new Resume(UUID_2);
-    protected static final Resume RESUME_3 = new Resume(UUID_3);
-    protected static final Resume RESUME_4 = new Resume(UUID_4);
+    protected static final Resume RESUME_1 = new Resume(UUID_1, NAME_1);
+    protected static final Resume RESUME_2 = new Resume(UUID_2, NAME_2);
+    protected static final Resume RESUME_3 = new Resume(UUID_3, NAME_3);
+    protected static final Resume RESUME_4 = new Resume(UUID_4, NAME_4);
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -50,7 +59,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume resume = new Resume(RESUME_1.getUuid());
+        Resume resume = new Resume(UUID_1, NAME_1);
         storage.update(resume);
         assertGet(resume);
     }
@@ -76,7 +85,6 @@ public abstract class AbstractStorageTest {
     public void clear() {
         storage.clear();
         assertSize(0);
-        assertArrayEquals(new Resume[0], storage.getAll());
     }
 
     @Test
@@ -97,9 +105,12 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() {
-        Resume[] actual = new Resume[] {RESUME_1, RESUME_2, RESUME_3};
-        assertArrayEquals(actual, storage.getAll());
+    public void getAllSorted() {
+        List<Resume> actual = new ArrayList<>();
+        assertSize(3);
+        assertEquals(storage.get(UUID_1), RESUME_1);
+        assertEquals(storage.get(UUID_2), RESUME_2);
+        assertEquals(storage.get(UUID_3), RESUME_3);
     }
 
     private void assertSize(int size) {
