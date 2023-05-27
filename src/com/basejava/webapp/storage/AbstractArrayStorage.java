@@ -42,7 +42,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume[] doCopy() {
+    protected Resume[] doCopyAll() {
         return Arrays.copyOf(storage, size);
     }
 
