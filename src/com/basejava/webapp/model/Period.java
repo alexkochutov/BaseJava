@@ -1,14 +1,15 @@
 package com.basejava.webapp.model;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Period {
-    private final String startDate;
-    private final String endDate;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
     private final String title;
     private final String description;
 
-    Period(String startDate, String endDate, String title, String description) {
+    Period(LocalDate startDate, LocalDate endDate, String title, String description) {
         Objects.requireNonNull(startDate, "StartDate MUST NOT be null");
         Objects.requireNonNull(title, "Title MUST NOT be null");
         this.startDate = startDate;
@@ -17,11 +18,11 @@ public class Period {
         this.description = description;
     }
 
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
