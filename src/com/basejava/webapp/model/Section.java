@@ -1,5 +1,5 @@
 package com.basejava.webapp.model;
 
-public class Section {
+abstract public class Section {
 
 }

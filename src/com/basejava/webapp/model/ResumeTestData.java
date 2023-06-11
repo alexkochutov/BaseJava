@@ -61,7 +61,7 @@ public class ResumeTestData {
         o7.addItem(new Period("10/2014", "01/2016", "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."));
         Organization o8 = new Organization("Java Online Projects", null);
         o8.addItem(new Period("10/2013", null, "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок."));
-        DateSection experience = new DateSection();
+        OrganizationSection experience = new OrganizationSection();
         experience.addContentItem(o1);
         experience.addContentItem(o2);
         experience.addContentItem(o3);
@@ -85,7 +85,7 @@ public class ResumeTestData {
         e5.addItem(new Period("03/2011", "04/2011", "Курс 'Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.'", null));
         Organization e6 = new Organization("Coursera", null);
         e6.addItem(new Period("03/2013", "05/2013", "'Functional Programming Principles in Scala' by Martin Odersky\n", null));
-        DateSection education = new DateSection();
+        OrganizationSection education = new OrganizationSection();
         education.addContentItem(e1);
         education.addContentItem(e2);
         education.addContentItem(e3);
@@ -97,12 +97,12 @@ public class ResumeTestData {
         System.out.println("Resume UUID: " + resume.getUuid());
         System.out.println("Full name : " + resume.getFullName());
 
-        for (ContactType type : resume.getContacts().keySet()) {
-            System.out.print(type + " : " + resume.getContacts().get(type) + "\n");
+        for (ContactType item : ContactType.values()) {
+            System.out.println(item + " : " + resume.getContact(item));
         }
 
-        for (SectionType type : resume.getSections().keySet()) {
-            System.out.print("\n=========================\n" + type + "\n=========================\n" + resume.getSections().get(type) + "\n");
+        for (SectionType item : SectionType.values()) {
+            System.out.println("\n" + item + "\n" + resume.getSection(item));
         }
     }
 }

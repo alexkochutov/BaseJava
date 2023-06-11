@@ -1,12 +1,16 @@
 package com.basejava.webapp.model;
 
+import java.util.Objects;
+
 public class Period {
-    private String startDate;
-    private String endDate;
-    private String title;
-    private String description;
+    private final String startDate;
+    private final String endDate;
+    private final String title;
+    private final String description;
 
     Period(String startDate, String endDate, String title, String description) {
+        Objects.requireNonNull(startDate, "StartDate MUST NOT be null");
+        Objects.requireNonNull(title, "Title MUST NOT be null");
         this.startDate = startDate;
         this.endDate = endDate;
         this.title = title;
@@ -29,13 +33,25 @@ public class Period {
         return description;
     }
 
+    @Override
     public String toString() {
-        String result = "";
-        result += "           " + startDate + " - " + ((endDate == null) ? "Until today" : endDate) + "\n";
-        result += "           " + title + "\n";
+        String result = "        " + startDate + " - " + (endDate == null ? "Till today" : endDate) + "\n        " + title + "\n";
         if (description != null) {
-            result += "           " + description + "\n";
+            result += "        " + description + "\n";
         }
-        return result;
+        return result + "\n";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Period period = (Period) o;
+        return startDate.equals(period.startDate) && Objects.equals(endDate, period.endDate) && title.equals(period.title) && Objects.equals(description, period.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(startDate, endDate, title, description);
     }
 }

@@ -2,6 +2,7 @@ package com.basejava.webapp.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Organization {
     private final String name;
@@ -9,6 +10,7 @@ public class Organization {
     private final List<Period> list = new ArrayList<>();
 
     Organization(String name, String website) {
+        Objects.requireNonNull(name, "Name MUST NOT be null");
         this.name = name;
         this.website = website;
     }
@@ -29,13 +31,28 @@ public class Organization {
         list.add(item);
     }
 
+    @Override
     public String toString() {
-        String result = "";
-        result += "    <> " + name + "\n";
-        result += "       " + ((website == null) ? "Website isn`t specified" : website) + "\n";
+        String result = "    " + name + "\n";
+        if (website != null) {
+            result += "    " + website + "\n";
+        }
         for (Period item : list) {
-            result += item;
+            result += item.toString();
         }
         return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Organization that = (Organization) o;
+        return name.equals(that.name) && Objects.equals(website, that.website) && Objects.equals(list, that.list);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, website, list);
     }
 }

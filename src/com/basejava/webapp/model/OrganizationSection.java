@@ -4,22 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ListSection extends Section {
-    private final List<String> content = new ArrayList<>();
+public class OrganizationSection extends Section {
+    private final List<Organization> content = new ArrayList<>();
 
-    public List<String> getContent() {
+    public List<Organization> getContent() {
         return content;
     }
 
-    public void addContentItem(String item) {
+    public void addContentItem(Organization item) {
         content.add(item);
     }
 
-    @Override
     public String toString() {
         String result = "";
-        for (String item : content) {
-            result += "  - " + item + "\n";
+        for (Organization item : content) {
+            result += item;
         }
         return result;
     }
@@ -28,7 +27,7 @@ public class ListSection extends Section {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ListSection that = (ListSection) o;
+        OrganizationSection that = (OrganizationSection) o;
         return Objects.equals(content, that.content);
     }
 

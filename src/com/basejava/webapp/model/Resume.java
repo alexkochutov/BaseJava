@@ -1,14 +1,14 @@
 package com.basejava.webapp.model;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class Resume implements Comparable<Resume> {
     private final String uuid;
     private final String fullName;
-    private final Map<ContactType, String> contacts = new HashMap<>();
-    private final Map<SectionType, Section> sections = new HashMap<>();
+    private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -27,12 +27,12 @@ public class Resume implements Comparable<Resume> {
         return fullName;
     }
 
-    public Map<ContactType, String> getContacts() {
-        return contacts;
+    public String getContact(ContactType type) {
+        return contacts.get(type);
     }
 
-    public Map<SectionType, Section> getSections() {
-        return sections;
+    public Section getSection(SectionType type) {
+        return sections.get(type);
     }
 
     public void addContact(ContactType type, String contact) {
