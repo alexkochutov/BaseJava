@@ -5,6 +5,42 @@ import com.basejava.webapp.util.DateUtil;
 import java.time.Month;
 
 public class ResumeTestData {
+    public static Resume fullResume(String uuid, String fullName) {
+        Resume resume = new Resume(uuid, fullName);
+        resume.addContact(ContactType.MOBILE, "mobile");
+        resume.addContact(ContactType.MAIL, "mail");
+        resume.addContact(ContactType.SKYPE, "skype");
+        resume.addContact(ContactType.LINKEDIN, "linkedin");
+        resume.addContact(ContactType.GITHUB, "github");
+        resume.addContact(ContactType.STACKOVERFLOW, "sof");
+        resume.addContact(ContactType.HOMEPAGE, "homepage");
+
+        resume.addSection(SectionType.OBJECTIVE, new StringSection("OBJECTIVE"));
+        resume.addSection(SectionType.PERSONAL, new StringSection("PERSONAL"));
+
+        ListSection achievements = new ListSection();
+        achievements.addContentItem("ACHIEVEMENTS");
+        resume.addSection(SectionType.ACHIEVEMENTS, achievements);
+
+        ListSection qualifications = new ListSection();
+        qualifications.addContentItem("QUALIFICATIONS");
+        resume.addSection(SectionType.QUALIFICATIONS, qualifications);
+
+        Organization work = new Organization("Organization name", "https://organization.org");
+        work.addItem(new Period(DateUtil.of(2001, Month.of(1)), DateUtil.of(2002, Month.of(12)), "Job title", "Job description"));
+        OrganizationSection experience = new OrganizationSection();
+        experience.addContentItem(work);
+        resume.addSection(SectionType.EXPERIENCE, experience);
+
+        Organization study = new Organization("Study organization name", "https://organization.edu");
+        study.addItem(new Period(DateUtil.of(2000, Month.of(1)), DateUtil.of(2000, Month.of(12)), "Title", "Description"));
+        OrganizationSection education = new OrganizationSection();
+        experience.addContentItem(study);
+        resume.addSection(SectionType.EDUCATION, education);
+
+        return resume;
+    }
+
     public static void main(String[] args) {
         Resume resume = new Resume("Григорий Кислин");
 

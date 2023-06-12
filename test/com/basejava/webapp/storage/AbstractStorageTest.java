@@ -2,6 +2,7 @@ package com.basejava.webapp.storage;
 
 import com.basejava.webapp.model.Resume;
 import com.basejava.webapp.exception.*;
+import com.basejava.webapp.model.ResumeTestData;
 import org.junit.*;
 
 import java.util.ArrayList;
@@ -24,10 +25,10 @@ public abstract class AbstractStorageTest {
 
     private static final String UUID_NOT_EXIST = "dummy";
 
-    protected static final Resume RESUME_1 = new Resume(UUID_1, NAME_1);
-    protected static final Resume RESUME_2 = new Resume(UUID_2, NAME_2);
-    protected static final Resume RESUME_3 = new Resume(UUID_3, NAME_3);
-    protected static final Resume RESUME_4 = new Resume(UUID_4, NAME_4);
+    protected static final Resume RESUME_1 = ResumeTestData.fullResume(UUID_1, NAME_1);
+    protected static final Resume RESUME_2 = ResumeTestData.fullResume(UUID_2, NAME_2);
+    protected static final Resume RESUME_3 = ResumeTestData.fullResume(UUID_3, NAME_3);
+    protected static final Resume RESUME_4 = ResumeTestData.fullResume(UUID_4, NAME_4);
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
