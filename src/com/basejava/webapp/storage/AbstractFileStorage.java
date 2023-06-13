@@ -85,10 +85,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     public void clear() {
         File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                doDelete(file);
-            }
+        if (files == null) {
+            throw new StorageException("Can't clear folder: " + directory.getAbsolutePath(), null);
+        }
+        for (File file : files) {
+            doDelete(file);
         }
     }
 
@@ -96,7 +97,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     public int size() {
         String[] list = directory.list();
         if (list == null) {
-            throw new StorageException("Can't get list of files in: " + directory.getAbsolutePath(), null);
+            throw new StorageException("Can't get file's count: " + directory.getAbsolutePath(), null);
         }
         return list.length;
     }
