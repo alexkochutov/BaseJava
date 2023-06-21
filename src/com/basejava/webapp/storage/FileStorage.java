@@ -2,6 +2,7 @@ package com.basejava.webapp.storage;
 
 import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
+import com.basejava.webapp.storage.serializer.StorageStrategy;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -71,34 +72,31 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected Resume[] doCopyAll() {
-        File[] files = directory.listFiles();
-        if (files == null) {
-            throw new StorageException("Error: Can't get list of files in folder ", directory.getAbsolutePath());
-        }
-        List<Resume> result = new ArrayList<>(files.length);
-        for (File file : files) {
+    protected List<Resume> doCopyAll() {
+        List<Resume> result = new ArrayList<>(size());
+        for (File file : getFilesList()) {
             result.add(doGet(file));
         }
-        return result.toArray(new Resume[0]);
+        return result;
     }
 
     @Override
     public void clear() {
-        File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                doDelete(file);
-            }
+        for (File file : getFilesList()) {
+            doDelete(file);
         }
     }
 
     @Override
     public int size() {
-        String[] list = directory.list();
-        if (list == null) {
-            throw new StorageException("Error: Can't get count of files in folder ", directory.getAbsolutePath());
+        return getFilesList().length;
+    }
+
+    private File[] getFilesList() {
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Error: Can't get list of files in folder ", directory.getAbsolutePath());
         }
-        return list.length;
+        return files;
     }
 }

@@ -2,6 +2,7 @@ package com.basejava.webapp.storage;
 
 import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
+import com.basejava.webapp.storage.serializer.StorageStrategy;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -9,7 +10,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
@@ -44,7 +47,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.createFile(path);
         } catch (IOException e) {
-            throw new StorageException("Error: Can't create new file ", path.getFileName().toString(), e);
+            throw new StorageException("Error: Can't create new file ", getFileName(path), e);
         }
         doUpdate(r, path);
     }
@@ -54,7 +57,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try (BufferedOutputStream bs = new BufferedOutputStream(Files.newOutputStream(path))) {
             storageStrategy.doWrite(r, bs);
         } catch (IOException e) {
-            throw new StorageException("Error: Can't update file ", path.getFileName().toString(), e);
+            throw new StorageException("Error: Can't update file ", getFileName(path), e);
         }
     }
 
@@ -63,7 +66,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.delete(path);
         } catch (IOException e) {
-            throw new StorageException("Error: Can't delete file ", path.getFileName().toString(), e);
+            throw new StorageException("Error: Can't delete file ", getFileName(path), e);
         }
     }
 
@@ -72,34 +75,34 @@ public class PathStorage extends AbstractStorage<Path> {
         try (BufferedInputStream bs = new BufferedInputStream(Files.newInputStream(path))) {
             return storageStrategy.doRead(bs);
         } catch (IOException e) {
-            throw new StorageException("Error: Can't get resume from file", path.getFileName().toString(), e);
+            throw new StorageException("Error: Can't get resume from file", getFileName(path), e);
         }
     }
 
     @Override
-    protected Resume[] doCopyAll() {
-        try (Stream<Path> paths = Files.list(directory)) {
-            return paths.map(this::doGet).toArray(Resume[]::new);
-        } catch (IOException e) {
-            throw new StorageException("Error: Can't get list of files in folder ", directory.toString(), e);
-        }
+    protected List<Resume> doCopyAll() {
+        return getFilesList().map(this::doGet).collect(Collectors.toList());
     }
 
     @Override
     public void clear() {
-        try (Stream<Path> paths = Files.list(directory)) {
-            paths.forEach(this::doDelete);
-        } catch (IOException e) {
-            throw new StorageException("Error: Can't clear folder ", directory.toString(), e);
-        }
+        getFilesList().forEach(this::doDelete);
     }
 
     @Override
     public int size() {
-        try (Stream<Path> paths = Files.list(directory)) {
-            return (int) paths.count();
+        return (int) getFilesList().count();
+    }
+
+    private String getFileName(Path path) {
+        return path.getFileName().toString();
+    }
+
+    private Stream<Path> getFilesList() {
+        try {
+            return Files.list(directory);
         } catch (IOException e) {
-            throw new StorageException("Error: Can't get count of files in folder ", directory.toString(), e);
+            throw new StorageException("Error: Can't get list of files in folder ", directory.toString(), e);
         }
     }
 }

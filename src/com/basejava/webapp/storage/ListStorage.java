@@ -44,8 +44,8 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected Resume[] doCopyAll() {
-        return storage.toArray(new Resume[0]);
+    protected List<Resume> doCopyAll() {
+        return storage;
     }
 
     @Override
