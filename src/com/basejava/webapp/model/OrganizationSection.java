@@ -8,6 +8,8 @@ public class OrganizationSection extends Section {
     private static final long serialVersionUID = 1L;
     private final List<Organization> content = new ArrayList<>();
 
+    public OrganizationSection() {}
+
     public List<Organization> getContent() {
         return content;
     }
