@@ -10,6 +10,10 @@ public class OrganizationSection extends Section {
 
     public OrganizationSection() {}
 
+    public OrganizationSection(List<Organization> content) {
+        this.content.addAll(content);
+    }
+
     public List<Organization> getContent() {
         return content;
     }

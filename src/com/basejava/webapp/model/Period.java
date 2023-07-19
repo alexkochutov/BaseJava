@@ -60,7 +60,7 @@ public class Period implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Period period = (Period) o;
-        return startDate.equals(period.startDate) && Objects.equals(endDate, period.endDate) && title.equals(period.title) && Objects.equals(description, period.description);
+        return startDate.equals(period.startDate) && endDate.equals(period.endDate) && title.equals(period.title) && description.equals(period.description);
     }
 
     @Override

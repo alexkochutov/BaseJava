@@ -112,9 +112,9 @@ public abstract class AbstractStorageTest {
     public void getAllSorted() {
         List<Resume> actual = new ArrayList<>();
         assertSize(3);
-        assertEquals(storage.get(UUID_1), RESUME_1);
-        assertEquals(storage.get(UUID_2), RESUME_2);
-        assertEquals(storage.get(UUID_3), RESUME_3);
+        assertGet(RESUME_1);
+        assertGet(RESUME_2);
+        assertGet(RESUME_3);
     }
 
     private void assertSize(int size) {

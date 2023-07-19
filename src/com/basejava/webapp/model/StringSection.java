@@ -18,7 +18,7 @@ public class StringSection extends Section {
 
     @Override
     public String toString() {
-        return "    " + content;
+        return content;
     }
 
     @Override

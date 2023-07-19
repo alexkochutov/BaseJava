@@ -22,6 +22,11 @@ public class Organization implements Serializable {
         this.website = website;
     }
 
+    public Organization(String name, String website, List<Period> list) {
+        this(name, website);
+        this.list.addAll(list);
+    }
+
     public String getName() {
         return name;
     }
