@@ -32,8 +32,8 @@ public class ResumeTestData {
         experience.addContentItem(work);
         resume.addSection(SectionType.EXPERIENCE, experience);
 
-        Organization study = new Organization("Study organization name", "https://organization.edu");
-        study.addItem(new Period(DateUtil.of(2000, Month.of(1)), DateUtil.of(2000, Month.of(12)), "Title", "Description"));
+        Organization study = new Organization("Study organization name", null);
+        study.addItem(new Period(DateUtil.of(2000, Month.of(1)), DateUtil.of(2000, Month.of(12)), "Title", null));
         OrganizationSection education = new OrganizationSection();
         education.addContentItem(study);
         resume.addSection(SectionType.EDUCATION, education);
