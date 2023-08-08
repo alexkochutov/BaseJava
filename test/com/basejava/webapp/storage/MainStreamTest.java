@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class MainStreamTest {
 
@@ -17,9 +16,11 @@ public class MainStreamTest {
         Assert.assertEquals(expected, actual);
     }
 
-    @Test (expected = NoSuchElementException.class)
+    @Test
     public void minValueEmptyArray() {
-        int result = MainStream.minValue(new int[]{});
+        int actual = MainStream.minValue(new int[]{});
+        int expected = 0;
+        Assert.assertEquals(expected, actual);
     }
 
     @Test

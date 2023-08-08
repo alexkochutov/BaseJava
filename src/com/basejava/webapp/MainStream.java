@@ -10,11 +10,9 @@ public class MainStream {
     public static int minValue(int[] values) {
         return Arrays.stream(values)
                 .distinct()
-                .filter(a -> a >= 1)
-                .filter(a -> a <= 9)
+                .filter(a -> (a >= 1) && (a <= 9))
                 .sorted()
-                .reduce((a, b) -> a * 10 + b)
-                .getAsInt();
+                .reduce(0, (a, b) -> a * 10 + b);
     }
 
     public static List<Integer> oddOrEven(List<Integer> integers) {
